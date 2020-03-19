@@ -14,8 +14,6 @@ import com.mut_jaeryo.rss.util.RssAdapter
 class MainActivity : AppCompatActivity() {
 
 
-    val viewModel by lazy { ViewModelProviders.of(this).get(RssViewModel::class.java)}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

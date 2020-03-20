@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         val binding : ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         binding.run {
             lifecycleOwner = this@MainActivity
-            vm = ViewModelProviders.of(this@MainActivity).get(RssViewModel::class.java)
+            vm = RssViewModel(this@MainActivity)
             this.rssRecycler.adapter = RssAdapter()
         }
     }

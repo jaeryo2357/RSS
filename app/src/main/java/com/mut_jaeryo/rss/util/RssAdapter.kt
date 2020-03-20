@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mut_jaeryo.rss.BR
 import com.mut_jaeryo.rss.R
 import com.mut_jaeryo.rss.data.RssData
@@ -14,16 +15,19 @@ import java.lang.Exception
 
 class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>()
 {
-    private val items = mutableListOf<RssData>()
+    private var items : ArrayList<RssData> = ArrayList<RssData>()
 
-    fun replaceAll(items: List<RssData>?)
+//    fun replaceAll(list: List<RssData>)
+//    {
+//        this.items.clear()
+//        this.items.addAll(list)
+//
+//        notifyDataSetChanged()
+//    }
+    fun addItem(item : RssData)
     {
-        items?.let {
-            this.items.run {
-                clear()
-                addAll(it)
-            }
-        }
+        items.add(item)
+        notifyItemInserted(items.lastIndex)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

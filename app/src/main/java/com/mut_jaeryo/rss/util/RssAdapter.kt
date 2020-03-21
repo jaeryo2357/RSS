@@ -15,8 +15,8 @@ import java.lang.Exception
 
 class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>()
 {
-    private var items : ArrayList<RssData> = ArrayList<RssData>()
-
+    private var items : ArrayList<RssData> = ArrayList()
+    var listener : RssItemClickEvent? = null
 //    fun replaceAll(list: List<RssData>)
 //    {
 //        this.items.clear()
@@ -24,8 +24,7 @@ class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>()
 //
 //        notifyDataSetChanged()
 //    }
-    fun addItem(item : RssData)
-    {
+    fun addItem(item : RssData) {
         items.add(item)
         notifyItemInserted(items.lastIndex)
     }
@@ -33,33 +32,41 @@ class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         object : ViewHolder(
             layoutResId = R.layout.rss_list,
-            parent = parent
+            parent = parent,
+            listener = listener
         ){}
 
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       holder.onBindViewHolder(items[position])
+       holder.onBindViewHolder(items[position],position)
+    }
+
+    interface RssItemClickEvent{
+        fun onClickItem(view:View,data:RssData)
     }
 
 
     abstract class ViewHolder(
         @LayoutRes layoutResId:Int,
-        parent:ViewGroup
+        parent:ViewGroup,
+        private val listener : RssItemClickEvent?
     ) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(layoutResId,parent,false)
     ){
 
         private val binding: RssListBinding = DataBindingUtil.bind(itemView)!!
 
-        fun onBindViewHolder(item:RssData?)
+        fun onBindViewHolder(item:RssData?,position:Int)
         {
-            try {
-                item?.let {
-                    binding.item = item
+            item?.let {
+                binding.item = item
+
+                listener?.let {
+                    itemView.setOnClickListener {
+                        listener.onClickItem(it,item)
+                    }
                 }
-            }catch (e:Exception) {
-                e.printStackTrace()
             }
         }
     }

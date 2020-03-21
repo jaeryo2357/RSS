@@ -18,17 +18,18 @@ import java.net.Inet4Address
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
-class RssViewModel(val context : Context) : ViewModel(){
+class RssViewModel() : ViewModel(){
 
 //    private val _rssList = MutableLiveData<List<RssData>>()
 //    val rssList : LiveData<List<RssData>> = _rssList
     val rssList =  ObservableArrayList<RssData>()
+    var url:String? = null
+
     private val job = Job()
     private val rssScope = CoroutineScope(Dispatchers.Main + job)
 
-
-
-    init {
+    fun loadRssToUrl(url:String) {
+        this.url = url
         onRssRefresh()
     }
 
@@ -39,13 +40,10 @@ class RssViewModel(val context : Context) : ViewModel(){
 
 
     fun onRssRefresh(){ //_rssList 값 새로 불러오기
-
         rssScope.launch(Dispatchers.Main) { //UI 확인을 위해 메인쓰레드에서 실행
             val nodeList = withContext(Dispatchers.IO) {
-                Log.d("RssTest",context.getString(R.string.rss_url))
-               RssParser.fetchItemInRss(context.getString(R.string.rss_url))
+               RssParser.fetchItemInRss(url!!)
             } //NodeList 객체를 반환
-
             nodeList?.let {
                 val items = withContext(Dispatchers.Default){
                    RssParser.findValueInNode(it)

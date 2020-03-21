@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RSS</string>
+    <string name="app_name">Today RSS</string>
+    <string name="main_activity_name">Google Rss</string>
+    <string name="news_activity_name">Rss</string>
     <string name="rss_url">https://news.google.com/rss</string>
 </resources>

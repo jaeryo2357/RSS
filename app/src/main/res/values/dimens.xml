@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="rss_image_size_WH">100dp</dimen>
+    <dimen name="rss_image_size_WH">90dp</dimen>
 </resources>

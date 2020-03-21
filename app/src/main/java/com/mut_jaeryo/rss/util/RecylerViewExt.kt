@@ -29,7 +29,7 @@ fun RecyclerView.addItem(item: ArrayList<RssData>?) {
 }
 
 @BindingAdapter("app:bindUri")
-fun loadImage(view: ImageView, uri : String?) {
+fun loadImage(view: ImageView, uri : String?){
     uri?.let {
         Glide.with(view.context)
             .load(it)
@@ -42,8 +42,8 @@ fun loadImage(view: ImageView, uri : String?) {
 }
 
 @BindingAdapter("app:bindKeyword")
-fun addKeyword(view:ChipGroup,array : Array<String>?)
-{
+fun addKeyword(view:ChipGroup,array : Array<String>?){
+    view.removeAllViews()
     array?.let {
         for (keyword in it) {
             if (keyword != "") {

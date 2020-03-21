@@ -12,8 +12,11 @@ import java.io.IOException
 import java.lang.Exception
 import java.net.SocketTimeoutException
 import java.net.URL
+import java.util.*
 import javax.net.ssl.SSLException
 import javax.xml.parsers.DocumentBuilderFactory
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 object RssParser {
     suspend fun findValueInNode(nodeList: NodeList) : List<RssData>
@@ -46,7 +49,8 @@ object RssParser {
                     data.content = content.attr("content") ?: "" // 본문 추출
                     withContext(Dispatchers.Default)
                     {
-                        val allWord = data.content!!.split(" ")
+                        val regex = """\W+""".toRegex()  //\w 문자 or 숫자
+                        val allWord = regex.split(data.content!!)
                         val map = HashMap<String, Int>()
 
                         for (word in allWord) {
@@ -55,7 +59,20 @@ object RssParser {
                                 map[word] = time + 1
                             }
                         }
-                        data.keywordList = map
+                        //내림차순 정렬
+                        val keyList = ArrayList<String>(map.keys)
+                        keyList.sortWith(Comparator { v1, v2 ->
+                            val compare = map[v2]!!.compareTo(map[v1]!!)
+                            if(compare == 0) v1.compareTo(v2) //빈도수가 동일한 경우 문자열 오름차순
+                            else compare
+                        })
+                        val keywordList = arrayOf("","","")
+
+                        for(index in 0 until keyList.size) {
+                            if(index>2)break
+                            keywordList[index]= keyList[index]
+                        }
+                        data.keywordList = keywordList
                     }
                 }
             }
@@ -64,7 +81,6 @@ object RssParser {
         }catch (e : SocketTimeoutException){ //사이트 속도 에러
             e.printStackTrace()
         }
-
     }
 
     //async는 try catch로 에러처리
@@ -76,7 +92,6 @@ object RssParser {
                 documentElement.normalize() //공백등 제거
             }
             val nodeList = document.getElementsByTagName("item")
-
 //            Log.d("RssTest node Size","${nodeList.length}")
             nodeList
         }catch (e: IOException) {

@@ -4,6 +4,8 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.mut_jaeryo.rss.R
 import com.mut_jaeryo.rss.data.RssData
 
@@ -36,5 +38,21 @@ fun loadImage(view: ImageView, uri : String?) {
             .centerCrop()
             .error(R.drawable.ic_launcher_background)
             .into(view)
+    }
+}
+
+@BindingAdapter("app:bindKeyword")
+fun addKeyword(view:ChipGroup,array : Array<String>?)
+{
+    array?.let {
+        for (keyword in it) {
+            if (keyword != "") {
+                val chip = Chip(view.context).apply {
+                    text = keyword
+                    textSize = 12f
+                }
+                view.addView(chip)
+            }
+        }
     }
 }

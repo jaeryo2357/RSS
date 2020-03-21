@@ -22,8 +22,10 @@ import com.mut_jaeryo.rss.data.RssData
 fun RecyclerView.addItem(item: ArrayList<RssData>?) {
     (this.adapter as? RssAdapter)?.run {
         item?.let {
-            if(item.size>0)
-            this.addItem(it[it.size-1])
+            if(item.size == 0)
+                onItemClear()
+            else
+                addItem(it[it.size-1])
         }
     }
 }

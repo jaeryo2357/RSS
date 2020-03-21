@@ -40,6 +40,7 @@ class RssViewModel() : ViewModel(){
 
 
     fun onRssRefresh(){ //_rssList 값 새로 불러오기
+        rssList.clear()
         rssScope.launch(Dispatchers.Main) { //UI 확인을 위해 메인쓰레드에서 실행
             val nodeList = withContext(Dispatchers.IO) {
                RssParser.fetchItemInRss(url!!)

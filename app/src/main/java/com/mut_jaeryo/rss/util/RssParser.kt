@@ -80,6 +80,9 @@ object RssParser {
             e.printStackTrace()
         }catch (e : SocketTimeoutException){ //사이트 속도 에러
             e.printStackTrace()
+        }catch (e: Exception)
+        {
+            e.printStackTrace()
         }
     }
 

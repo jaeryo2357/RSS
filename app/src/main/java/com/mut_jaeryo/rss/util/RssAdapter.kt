@@ -13,18 +13,23 @@ import com.mut_jaeryo.rss.data.RssData
 import com.mut_jaeryo.rss.databinding.RssListBinding
 import java.lang.Exception
 
-class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>()
-{
-    private var items : ArrayList<RssData> = ArrayList()
-    var listener : RssItemClickEvent? = null
-//    fun replaceAll(list: List<RssData>)
+class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>() {
+    private var items: ArrayList<RssData> = ArrayList()
+    var listener: RssItemClickEvent? = null
+
+    //    fun replaceAll(list: List<RssData>)
 //    {
 //        this.items.clear()
 //        this.items.addAll(list)
 //
 //        notifyDataSetChanged()
 //    }
-    fun addItem(item : RssData) {
+    fun onItemClear() {
+        items.clear()
+        notifyDataSetChanged()
+    }
+
+    fun addItem(item: RssData) {
         items.add(item)
         notifyItemInserted(items.lastIndex)
     }
@@ -34,37 +39,36 @@ class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>()
             layoutResId = R.layout.rss_list,
             parent = parent,
             listener = listener
-        ){}
+        ) {}
 
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       holder.onBindViewHolder(items[position],position)
+        holder.onBindViewHolder(items[position], position)
     }
 
-    interface RssItemClickEvent{
-        fun onClickItem(view:View,data:RssData)
+    interface RssItemClickEvent {
+        fun onClickItem(view: View, data: RssData)
     }
 
 
     abstract class ViewHolder(
-        @LayoutRes layoutResId:Int,
-        parent:ViewGroup,
-        private val listener : RssItemClickEvent?
+        @LayoutRes layoutResId: Int,
+        parent: ViewGroup,
+        private val listener: RssItemClickEvent?
     ) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(layoutResId,parent,false)
-    ){
+        LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
+    ) {
 
         private val binding: RssListBinding = DataBindingUtil.bind(itemView)!!
 
-        fun onBindViewHolder(item:RssData?,position:Int)
-        {
+        fun onBindViewHolder(item: RssData?, position: Int) {
             item?.let {
                 binding.item = item
 
                 listener?.let {
                     itemView.setOnClickListener {
-                        listener.onClickItem(it,item)
+                        listener.onClickItem(it, item)
                     }
                 }
             }

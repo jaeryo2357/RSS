@@ -7,6 +7,11 @@ import com.mut_jaeryo.rss.R
 import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
+    /*
+    라이브러리 출처
+    jsoup -< https://github.com/jhy/jsoup
+    glide -< https://github.com/bumptech/glide
+     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

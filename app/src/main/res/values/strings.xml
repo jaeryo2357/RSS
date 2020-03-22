@@ -3,5 +3,11 @@
     <string name="app_name">Today RSS</string>
     <string name="main_activity_name">Google Rss</string>
     <string name="news_activity_name">Rss</string>
+<!--    rss-->
     <string name="rss_url">https://news.google.com/rss</string>
+<!--    splash-->
+    <string name="version_code">v 1.0</string>
+    <string name="label_1">Provides the latest news.</string>
+    <string name="label_2">Discover news keywords</string>
+    <string name="label_3">Click on the news to see the original news.</string>
 </resources>

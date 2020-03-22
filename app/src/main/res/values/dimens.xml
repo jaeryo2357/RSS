@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="rss_image_size_WH">90dp</dimen>
+    <dimen name="logo_size_WH">150dp</dimen>
+    <dimen name="small_image_size_WH">50dp</dimen>
 </resources>

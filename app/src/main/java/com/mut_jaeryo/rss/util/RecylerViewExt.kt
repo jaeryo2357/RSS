@@ -38,7 +38,7 @@ fun loadImage(view: ImageView, uri : String?){
             .thumbnail(0.1f)
             .dontAnimate()
             .centerCrop()
-            .error(R.drawable.ic_launcher_background)
+            .error(R.drawable.news_icon)
             .into(view)
     }
 }

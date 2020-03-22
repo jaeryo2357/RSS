@@ -18,12 +18,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
+        android:id="@+id/label_layout"
+        android:layout_width="@dimen/label_layout_W"
+        android:layout_marginBottom="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/splash_app_version"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +57,7 @@
         android:layout_width="@dimen/logo_size_WH"
         android:layout_height="@dimen/logo_size_WH"
         android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/label_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/news_icon" />

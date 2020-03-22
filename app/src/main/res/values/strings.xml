@@ -10,4 +10,6 @@
     <string name="label_1">Provides the latest news.</string>
     <string name="label_2">Discover news keywords</string>
     <string name="label_3">Click on the news to see the original news.</string>
+<!--    error-->
+    <string name="internet_error">Connect to the Internet please.</string>
 </resources>

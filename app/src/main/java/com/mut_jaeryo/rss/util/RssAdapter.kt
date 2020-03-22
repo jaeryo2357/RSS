@@ -17,7 +17,7 @@ class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>() {
     private var items: ArrayList<RssData> = ArrayList()
     var listener: RssItemClickEvent? = null
 
-    //    fun replaceAll(list: List<RssData>)
+    //   fun replaceAll(list: List<RssData>)
 //    {
 //        this.items.clear()
 //        this.items.addAll(list)
@@ -59,13 +59,11 @@ class RssAdapter : RecyclerView.Adapter<RssAdapter.ViewHolder>() {
     ) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
     ) {
-
         private val binding: RssListBinding = DataBindingUtil.bind(itemView)!!
 
         fun onBindViewHolder(item: RssData?, position: Int) {
             item?.let {
                 binding.item = item
-
                 listener?.let {
                     itemView.setOnClickListener {
                         listener.onClickItem(it, item)

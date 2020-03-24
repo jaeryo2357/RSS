@@ -1,5 +1,7 @@
 package com.mut_jaeryo.rss.util
 
+import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +55,7 @@ fun addKeyword(view:ChipGroup,array : Array<String>?){
                     text = keyword.trim()
                     textSize = 11f
                     chipMinHeight = 50f
+                    textAlignment = View.TEXT_ALIGNMENT_CENTER
                 }
                 view.addView(chip)
             }

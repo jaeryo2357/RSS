@@ -50,10 +50,12 @@ class RssViewModel() : ViewModel(){
                    RssParser.findValueInNode(it)
                 }
                 for(item in items) {
-                    withContext(Dispatchers.IO) {
+                    launch(Dispatchers.IO) {
                         RssParser.fetchContentInUrl(item)
+                        launch(Dispatchers.Main){
+                            rssList.add(item)
+                        }
                     }
-                    rssList.add(item)
                 }
             }
         }

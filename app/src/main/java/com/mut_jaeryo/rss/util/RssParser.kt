@@ -1,7 +1,5 @@
 package com.mut_jaeryo.rss.util
 
-import android.util.DisplayMetrics
-import android.util.Log
 import com.mut_jaeryo.rss.data.RssData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

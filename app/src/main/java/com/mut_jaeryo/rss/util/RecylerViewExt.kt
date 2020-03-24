@@ -52,6 +52,7 @@ fun addKeyword(view:ChipGroup,array : Array<String>?){
                 val chip = Chip(view.context).apply {
                     text = keyword
                     textSize = 11f
+                    chipMinHeight = 30f
                 }
                 view.addView(chip)
             }

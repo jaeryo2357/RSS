@@ -20,6 +20,7 @@
             android:layout_height="@dimen/rss_image_size_WH"
             android:layout_marginStart="16dp"
             app:bindUri="@{item.imageUrl}"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
             android:maxLines="1"
             android:text="@{item.title}"
@@ -74,7 +75,15 @@
                 android:layout_height="wrap_content"
                 app:bindKeyword="@{item.keywordList}"
                 app:singleLine="true"
-                />
+                >
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="test"
+                    app:chipMinTouchTargetSize="24dp"
+                    app:chipMinHeight="24dp"
+                    android:textSize="11sp"></com.google.android.material.chip.Chip>
+            </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
         <View
@@ -86,7 +95,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rss_horizontal"></View>
+            app:layout_constraintTop_toBottomOf="@id/rss_image"></View>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

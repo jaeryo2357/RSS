@@ -63,7 +63,6 @@
             app:layout_constraintStart_toEndOf="@+id/rss_image"
             app:layout_constraintTop_toBottomOf="@+id/rss_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
             android:overScrollMode="never"
             android:scrollbars="none"
             android:layout_marginEnd="16dp"
@@ -75,15 +74,7 @@
                 android:layout_height="wrap_content"
                 app:bindKeyword="@{item.keywordList}"
                 app:singleLine="true"
-                >
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="test"
-                    app:chipMinTouchTargetSize="24dp"
-                    app:chipMinHeight="24dp"
-                    android:textSize="11sp"></com.google.android.material.chip.Chip>
-            </com.google.android.material.chip.ChipGroup>
+                />
         </HorizontalScrollView>
 
         <View

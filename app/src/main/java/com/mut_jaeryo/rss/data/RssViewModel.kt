@@ -20,10 +20,10 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class RssViewModel() : ViewModel(){
 
-//    private val _rssList = MutableLiveData<List<RssData>>()
-//    val rssList : LiveData<List<RssData>> = _rssList
+    private val _parseEnd = MutableLiveData<Boolean>(true)
     val rssList =  ObservableArrayList<RssData>()
     var url:String? = null
+    var parseEnd : LiveData<Boolean> = _parseEnd
 
     private val job = Job()
     private val rssScope = CoroutineScope(Dispatchers.Main + job)
@@ -33,7 +33,7 @@ class RssViewModel() : ViewModel(){
         onRssRefresh()
     }
 
-    override fun onCleared() { //viewModel이 소멸될 때, 코루틴도 종료
+    override fun onCleared() { //viewModel 이 소멸될 때, 코루틴도 종료
         super.onCleared()
         job.cancel()
     }
@@ -41,19 +41,26 @@ class RssViewModel() : ViewModel(){
 
     fun onRssRefresh(){ //_rssList 값 새로 불러오기
         rssList.clear()
+        _parseEnd.postValue(false)
         rssScope.launch(Dispatchers.Main) { //UI 확인을 위해 메인쓰레드에서 실행
             val nodeList = withContext(Dispatchers.IO) {
+       //         Log.d("RssTest","xml 파싱 시작")
                RssParser.fetchItemInRss(url!!)
             } //NodeList 객체를 반환
+       //     Log.d("RssTest","nodeList 반환 완료")
             nodeList?.let {
-                val items = withContext(Dispatchers.Default){
-                   RssParser.findValueInNode(it)
-                }
-                for(item in items) {
-                    launch(Dispatchers.IO) {
-                        RssParser.fetchContentInUrl(item)
-                        launch(Dispatchers.Main){
-                            rssList.add(item)
+                for(index in 0 until nodeList.length) {
+                    launch {
+               //         Log.d("RssTest","nodeList $index item 생성")
+                        val item = RssParser.findValueInNode(nodeList.item(index) as Element)
+                        launch(Dispatchers.IO) {
+               //             Log.d("RssTest","nodeList $index jsoup 시작")
+                            RssParser.fetchContentInUrl(item)
+                            launch(Dispatchers.Main){
+               //                 Log.d("RssTest","nodeList $index item 추가")
+                                _parseEnd.postValue(true)
+                                rssList.add(item)
+                            }
                         }
                     }
                 }

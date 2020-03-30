@@ -17,24 +17,18 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 object RssParser {
-    suspend fun findValueInNode(nodeList: NodeList) : List<RssData>
-    {
-        val list = ArrayList<RssData>()
-        for(index in 0 until nodeList.length)
-        {
-            val item = nodeList.item(index) as Element
-//                        val title = item.getElementsByTagName("title").item(0).firstChild.nodeValue
-            val title = item.findValue("title")
-            val contentUrl = item.findValue("link")
+    suspend fun findValueInNode(node: Element): RssData {
+        val item: RssData
+//       val title = item.getElementsByTagName("title").item(0).firstChild.nodeValue
+        val title = node.findValue("title")
+        val contentUrl = node.findValue("link")
+        //     Log.d("RssTest item Title",title)
+        item = RssData(title, contentUrl)
 
-       //     Log.d("RssTest item Title",title)
-            list.add(RssData(title,contentUrl))
-        }
-        return list
+        return item
     }
 
-    suspend fun fetchContentInUrl(data : RssData)
-    {
+    suspend fun fetchContentInUrl(data: RssData) {
         try {
             val doc = Jsoup.connect(data.contentUrl).timeout(1000 * 10).get()  //타임아웃 무제한
             val contentData = doc.select("meta[property~=(og:image|og:description)]")
@@ -43,8 +37,9 @@ object RssParser {
                 val property = content.attr("property")
                 if (property == "og:image")
                     data.imageUrl = content.attr("content") ?: ""//이미지 추출
-                else if(property == "og:description"){
+                else if (property == "og:description") {
                     data.content = content.attr("content") ?: "" // 본문 추출
+
                     withContext(Dispatchers.Default)
                     {
                         val regex = """\W+""".toRegex()  //\w 문자 or 숫자
@@ -52,7 +47,7 @@ object RssParser {
                         val map = HashMap<String, Int>()
 
                         for (word in allWord) {
-                            if(word.length >= 2) { //2단어 이상
+                            if (word.length >= 2) { //2단어 이상
                                 val time = map[word] ?: 0
                                 map[word] = time + 1
                             }
@@ -61,31 +56,30 @@ object RssParser {
                         val keyList = ArrayList<String>(map.keys)
                         keyList.sortWith(Comparator { v1, v2 ->
                             val compare = map[v2]!!.compareTo(map[v1]!!)
-                            if(compare == 0) v1.compareTo(v2) //빈도수가 동일한 경우 문자열 오름차순
+                            if (compare == 0) v1.compareTo(v2) //빈도수가 동일한 경우 문자열 오름차순
                             else compare
                         })
-                        val keywordList = arrayOf("","","")
+                        val keywordList = arrayOf("", "", "")
 
-                        for(index in 0 until keyList.size) {
-                            if(index>2)break
-                            keywordList[index]= keyList[index]
+                        for (index in 0 until keyList.size) {
+                            if (index > 2) break
+                            keywordList[index] = keyList[index]
                         }
                         data.keywordList = keywordList
                     }
                 }
             }
-        }catch (e: SSLException){//I/O error system call
+        } catch (e: SSLException) {//I/O error system call
             e.printStackTrace()
-        }catch (e : SocketTimeoutException){ //사이트 속도 에러
+        } catch (e: SocketTimeoutException) { //사이트 속도 에러
             e.printStackTrace()
-        }catch (e: Exception)
-        {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     //async는 try catch로 에러처리
-    suspend fun fetchItemInRss(address :String) : NodeList?{ //Rss의 Item만 불러온다.
+    suspend fun fetchItemInRss(address: String): NodeList? { //Rss의 Item만 불러온다.
         return try {
             val url = URL(address)
             val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -95,7 +89,7 @@ object RssParser {
             val nodeList = document.getElementsByTagName("item")
 //            Log.d("RssTest node Size","${nodeList.length}")
             nodeList
-        }catch (e: IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
             null
         }
